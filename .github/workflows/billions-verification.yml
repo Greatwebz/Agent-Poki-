@@ -4,9 +4,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  verify:
+  verify-agent:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Verify Agent
-        run: echo "Agent verification successful"
+      # Step 1: Checkout your repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Install the Billions Identity Skill
+      - name: Install Verified Agent Identity
+        run: npx clawhub@latest install verified-agent-identity
+
+      # Step 3: Generate Ethereum Identity
+      - name: Generate Agent Identity
+        run: node scripts/createNewEthereumIdentity.js
+
+      # Step 4: Generate the Verification Link
+      - name: Generate Verification Link
+        run: node scripts/manualLinkHumanToAgent.js
